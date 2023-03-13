@@ -1,0 +1,59 @@
+---
+title: "Solar panel collection data"
+author: "Ethan Meersman"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(Hmisc)
+
+```
+
+### Below is the code to create a dataset about solar panels and energy collection and basic analysis of the variables.
+
+
+```{r}
+
+# Set the seed for reproducibility
+set.seed(20230130)
+
+# Generate random data for solar panels
+n <- 1000 # number of observations
+panel_area <- runif(n, min = 5, max = 20) # area of solar panels in m^2
+panel_efficiency <- runif(n, min = 0.1, max = 0.2) # efficiency of solar panels
+panel_orientation <- sample(c("north", "south", "east", "west"), n, replace = TRUE) # orientation of solar panels
+sunlight_hours <- rnorm(n, mean = 6, sd = 1.5) # average hours of sunlight per day
+panel_age <- rnorm(n, mean = 3, sd = 1) # age of the solar panel installation
+energy_output <- panel_area * panel_efficiency * (sunlight_hours/24) * (1 - panel_age/10) + rnorm(n, mean = 0, sd = 10) # energy output of the solar panels
+
+# Combine the variables into a data frame
+solar_data <- data.frame(panel_area, panel_efficiency, panel_orientation, sunlight_hours, panel_age, energy_output)
+
+```
+
+
+```{r}
+
+summary(solar_data)
+
+describe(solar_data)
+
+write.csv(solar_data, file = "meersman_solar_data.csv", row.names = FALSE)
+
+```
+
+# Data Dictionary
+
+panel_area: the area of the solar panels in square meters.
+
+panel_efficiency: the efficiency of the solar panels.
+
+panel_orientation: the orientation of the solar panels (north, south, east, or west).
+
+sunlight_hours: the average number of hours of sunlight per day.
+panel_age: the age of the solar panel installation.
+
+energy_output: the energy output of the solar panels.
